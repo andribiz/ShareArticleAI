@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const { withAxiom } = require("next-axiom");
 
-module.exports = nextConfig
+const nextConfig = withAxiom({});
+
+module.exports = nextConfig;
