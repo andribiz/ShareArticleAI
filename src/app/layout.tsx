@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import "./globals.css";
 import { AxiomWebVitals } from "next-axiom";
 import { Toaster } from "@/components/ui/toaster";
+import Sidebar from "@/components/Sidebar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -26,7 +27,13 @@ export default function RootLayout({
         <ClerkProvider>
           <ThemeProvider defaultTheme="light" attribute="class" enableSystem>
             <Header />
-            <main>{children}</main>
+            <div className="xl:pl-72 2xl:pl-80">
+              <Sidebar />
+
+              <main className="min-h-[100vh] px-4 pt-4 pb-16 sm:px-6 sm:pb-20 lg:px-8 xl:pb-24 3xl:px-10 3xl:pt-0.5">
+                {children}
+              </main>
+            </div>
             <Toaster />
           </ThemeProvider>
         </ClerkProvider>
