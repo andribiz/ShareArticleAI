@@ -1,15 +1,9 @@
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { PutCommand } from "@aws-sdk/lib-dynamodb";
+import { dbClient, TABLE_NAME } from ".";
+import xid from "xid-js";
 
-const TABLE_NAME = "request_transaction";
-
-const dbClient = new DynamoDBClient({
-  credentials: {
-    accessKeyId: process.env.DYNAMODB_ACCESS_KEY as string,
-    secretAccessKey: process.env.DYNAMODB_SECRET_KEY as string,
-  },
-  region: process.env.DYNAMODB_REGION as string,
-});
+const postfix = "T#";
+const userPostfix = "U#";
 
 export const createReqTransaction = async (
   userId: string,
@@ -20,9 +14,10 @@ export const createReqTransaction = async (
   const command = new PutCommand({
     TableName: TABLE_NAME,
     Item: {
-      user_id: userId,
-      create_datetime: new Date().toISOString(),
+      PK: `${userPostfix}${userId}`,
+      SK: `${postfix}${xid.next()}`,
       payload: {
+        create_time: Date.now(),
         url,
         data,
         tweets,
